@@ -188,7 +188,7 @@ void __fastcall drawText(HDC hdc, LPCSTR textStr, short x, short *y, int textLen
     *y = *y + textLineHeight;
 }
 
-void CALLBACK timerCallbackFunc(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime) {
+void CALLBACK timerCallbackFunc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
     if (inputEnabled != 0) {
         timerUpdateFunc();
     }
@@ -474,6 +474,9 @@ BOOL __fastcall initWindows(HINSTANCE hInstance,HINSTANCE hPrevInstance,int nCmd
         wndClass.cbWndExtra = 0;
         wndClass.hInstance = hInstance;
         wndClass.hIcon = LoadIconA(hInstance,"iconSki");
+        if (wndClass.hIcon == NULL) {
+            wndClass.hIcon = (HICON)LoadImageA(NULL,"resources\\iconski.ico",IMAGE_ICON,0,0,LR_LOADFROMFILE|LR_DEFAULTSIZE|LR_SHARED);
+        }
         wndClass.hCursor = LoadCursorA((HINSTANCE)0x0,(LPCSTR)0x7f00);
         wndClass.hbrBackground = whiteBrush;
         wndClass.lpszMenuName = (LPCSTR)0x0;
@@ -1194,14 +1197,21 @@ BOOL __fastcall loadBitmaps(HWND hWnd) {
     largeBitmapSheet_1bpp = NULL;
     scratchBitmap = NULL;
     if (!createBitmapSheets(mainWindowDC)) {
-        showErrorMessage("Whoa, like, can't load bitmaps!  Yer outa memory, duuude!");
+        showErrorMessage("Whoa, like, can't load bitmaps! Yer outa memory, duuude!\n\nMake sure the original ski32_1.bmp..ski32_89.bmp files are in resources\\ and iconski.ico is present.");
         return FALSE;
     }
     return TRUE;
 }
 
 HBITMAP __fastcall loadBitmapResource(UINT resourceId) {
-    return LoadBitmapA(skiFreeHInstance,MAKEINTRESOURCE(resourceId));
+    HBITMAP hBitmap = LoadBitmapA(skiFreeHInstance,MAKEINTRESOURCE(resourceId));
+    if (hBitmap != NULL) {
+        return hBitmap;
+    }
+
+    char bmpPath[MAX_PATH];
+    wsprintfA(bmpPath,"resources\\ski32_%d.bmp",resourceId);
+    return (HBITMAP)LoadImageA(NULL,bmpPath,IMAGE_BITMAP,0,0,LR_LOADFROMFILE|LR_CREATEDIBSECTION);
 }
 
 void __fastcall handleWindowMoveMessage(HWND hWnd) {

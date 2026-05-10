@@ -522,6 +522,6 @@ PermObjectList PermObjectList_0040c720;
 
 
 BOOL (WINAPI *sndPlaySoundAFuncPtr)(LPCSTR, UINT);
-void (CALLBACK* timerCallbackFuncPtr)(HWND, UINT, UINT, DWORD);
+void (CALLBACK* timerCallbackFuncPtr)(HWND, UINT, UINT_PTR, DWORD);
 
 #endif //SKIFREE_DECOMP_DATA_H
