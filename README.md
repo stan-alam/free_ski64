@@ -1,8 +1,20 @@
+FreeSki 64 forked from Skifree Decompilation Project By Eric Fry
+=============================
+Compiled and ran on Windows 11, May 10, 2026
+
+- [x] Convert functions to C
+- [x] Convert data to C
+- [ ] Harvest Ski Free bmp images from original or ski32.exe
+- [x] Make sure all functions exactly match with the original binary
+- [ ] Make sure data segments match the original exactly
+
+
+
 Skifree Decompilation Project
 =============================
 By Eric Fry
 
-A source code reconstruction of the 32bit version of Skifree (v1.04) back to C, compilable with Visual Studio 6.
+A source code reconstruction of the 32bit version of Skifree (v1.04) back to C, compatible with Visual Studio 6.
 
 ![Skifree](images/skifree.png)
 
