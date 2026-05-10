@@ -1,0 +1,13 @@
+*~
+*.aps
+*.pch
+*.plg
+*.ncb
+*.obj
+*.opt
+Debug/
+Release/
+resources/*.bmp
+resources/*.ico
+cmake-build-debug/
+.idea/
