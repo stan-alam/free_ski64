@@ -1,0 +1,21 @@
+# Yeti BMP mapping (pixel-accurate crops from sprite_sheet.png)
+
+# Slot  Source cell        Mirror   Description
+  ski32_ 5.bmp  face_left      (26x43) *      turn slight right
+  ski32_ 6.bmp  right_walk     (30x43)        turn more right
+  ski32_ 7.bmp  face_right     (23x43)        facing fully right
+  ski32_ 8.bmp  standing       (32x43)        snowplow / wide stance
+  ski32_ 9.bmp  standing       (32x43) *      snowplow (mirror)
+  ski32_10.bmp  armsup         (25x43)        crouch / preparing to jump
+  ski32_11.bmp  armsup         (25x43)        mid-air (arms up)
+  ski32_12.bmp  walk_alt       (26x37)        sitting (fallen)
+  ski32_13.bmp  walk_alt       (26x37) *      crashed (mirror)
+  ski32_14.bmp  rear           (28x43)        wipeout 1
+  ski32_15.bmp  rear           (28x43) *      wipeout 2
+  ski32_16.bmp  armsup         (25x43) *      wipeout 3
+  ski32_17.bmp  standing       (32x43)        wipeout 4 (seeing stars)
+  ski32_18.bmp  chomp_red      (32x43)        CHOMP - eating red victim
+  ski32_19.bmp  carry_blue     (29x43)        roaring with prey
+  ski32_20.bmp  face_right     (23x43)        chairlift seated
+  ski32_21.bmp  face_left      (26x43)        chairlift hanging
+  ski32_22.bmp  toss_drop      (29x43)        side carry / final pose
