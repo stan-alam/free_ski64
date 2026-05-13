@@ -1,5 +1,3 @@
-# Yeti BMP mapping (pixel-accurate crops from sprite_sheet.png)
-
 # Slot  Source cell        Mirror   Description
   ski32_ 5.bmp  face_left      (26x43) *      turn slight right
   ski32_ 6.bmp  right_walk     (30x43)        turn more right
