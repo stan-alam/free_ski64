@@ -1543,25 +1543,33 @@ int randomActorType1(void) {
     }
 
     uVar1 = random(1000);
-    if (uVar1 < 0x32) {
+    if (uVar1 < 0x32) {           /*    0- 49  ( 5%) walking tree */
         return 10;
     }
-    if (uVar1 < 500) {
+    if (uVar1 < 450) {            /*   50-449  (40%) */
         return ACTOR_TYPE_13_TREE;
     }
-    if (uVar1 < 700) {
+    if (uVar1 < 650) {            /*  450-649  (20%) */
         return ACTOR_TYPE_15_BUMP;
     }
-    if (uVar1 < 0x2ee) {
+    if (uVar1 < 730) {            /*  650-729  ( 8%) */
         return ACTOR_TYPE_11_MOGULS;
     }
-    if (uVar1 < 0x3b6) {
+    if (uVar1 < 900) {            /*  730-899  (17%) */
         return ACTOR_TYPE_14_ROCK_STUMP;
     }
-    if (uVar1 < 0x3ca) {
+    if (uVar1 < 930) {            /*  900-929  ( 3%) */
         return ACTOR_TYPE_16_JUMP;
     }
-    return (uVar1 < 0x3de) ? 1 : 2;
+    /* FreeSki 64: boost the live characters so the dog, snowboarder
+       and beginner skier actually appear on the slope. */
+    if (uVar1 < 955) {            /*  930-954  (2.5%) */
+        return ACTOR_TYPE_2_DOG;
+    }
+    if (uVar1 < 980) {            /*  955-979  (2.5%) */
+        return ACTOR_TYPE_3_SNOWBOARDER;
+    }
+    return ACTOR_TYPE_1_BEGINNER; /*  980-999  ( 2%) */
 }
 
 int areaBasedActorType() {
@@ -1569,11 +1577,19 @@ int areaBasedActorType() {
 }
 
 int randomActorType3() {
+    USHORT uVar1;
+
     if (totalAreaOfActorSprites > windowWithMarginTotalArea / 16) {
         return ACTOR_TYPE_18_NOTHING;
     }
 
-    return random(0x40) != 0 ? ACTOR_TYPE_13_TREE : ACTOR_TYPE_2_DOG;
+    /* FreeSki 64: was random(0x40)==0 (1/64) for dog and else tree.
+       Mix in the rest of the cast so lower runs feel alive too. */
+    uVar1 = random(100);
+    if (uVar1 < 5)  { return ACTOR_TYPE_2_DOG; }         /*  5% */
+    if (uVar1 < 9)  { return ACTOR_TYPE_3_SNOWBOARDER; } /*  4% */
+    if (uVar1 < 12) { return ACTOR_TYPE_1_BEGINNER; }    /*  3% */
+    return ACTOR_TYPE_13_TREE;                           /* 88% */
 }
 
 int randomActorType2() {
@@ -1584,19 +1600,16 @@ int randomActorType2() {
     }
 
     uVar1 = random(100);
-    if (uVar1 < 2) {
-        return 0xa;
-    }
-    if (uVar1 < 0x14) {
-        return ACTOR_TYPE_13_TREE;
-    }
-    if (uVar1 < 0x32) {
-        return ACTOR_TYPE_15_BUMP;
-    }
-    if (uVar1 < 0x3c) {
-        return ACTOR_TYPE_11_MOGULS;
-    }
-    return uVar1 < 0x50 ? ACTOR_TYPE_14_ROCK_STUMP : ACTOR_TYPE_16_JUMP;
+    if (uVar1 < 2)    { return 0xa; }
+    if (uVar1 < 0x14) { return ACTOR_TYPE_13_TREE; }
+    if (uVar1 < 0x32) { return ACTOR_TYPE_15_BUMP; }
+    if (uVar1 < 0x3c) { return ACTOR_TYPE_11_MOGULS; }
+    if (uVar1 < 0x50) { return ACTOR_TYPE_14_ROCK_STUMP; }
+    if (uVar1 < 0x55) { return ACTOR_TYPE_16_JUMP; }
+    /* FreeSki 64: middle-of-the-mountain characters. */
+    if (uVar1 < 0x5a) { return ACTOR_TYPE_2_DOG; }         /* 5% */
+    if (uVar1 < 0x5f) { return ACTOR_TYPE_3_SNOWBOARDER; } /* 5% */
+    return ACTOR_TYPE_1_BEGINNER;                          /* 5% */
 }
 
 Actor * __fastcall updateActor(Actor *actor) {
@@ -2561,8 +2574,9 @@ void __fastcall updatePermObjectActorType4(PermObject *permObject) {
         return;
     }
     /* snowboarder jump out of chairlift */
+    /* FreeSki 64: was random(1000)==0; bumped to ~1/60. */
     if (permObject->actor && (permObject->actorFrameNo == 0x27)) {
-        if (random(1000) == 0) {
+        if (random(60) == 0) {
             updateActorPositionMaybe(addActorOfType(ACTOR_TYPE_3_SNOWBOARDER,0x21), permObject->maybeX, permObject->maybeY, permObject->unk_0x18);
             permObject->actorFrameNo = 0x28;
         }
@@ -3525,7 +3539,10 @@ void updateGameState() {
         addRandomActor(BORDER_LEFT);
     }
 
-    if (random(0x29a) != 0) {
+    /* FreeSki 64: was random(0x29a) (1/666 per frame ~= snowboarder
+       from the top every ~20s). Bumped to 1/120 so one shows up
+       every few seconds. */
+    if (random(120) != 0) {
         return;
     }
     pAVar7 = addActorOfType(ACTOR_TYPE_3_SNOWBOARDER,0x1f);
